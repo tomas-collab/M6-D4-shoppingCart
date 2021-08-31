@@ -1,0 +1,30 @@
+{
+  "name": "D3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "setup": "node src/scropts/import",
+    "dev":"nodemon -r dotenv/config src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomas-collab/M6-D3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomas-collab/M6-D3/issues"
+  },
+  "homepage": "https://github.com/tomas-collab/M6-D3#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5"
+  }
+}
