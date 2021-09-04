@@ -1,22 +1,28 @@
-import sequelize from "../index.js";
+
 import category from "./category.js";
-import comment from "./comments.js";
-import Product from "./product.js";
-import Users from "./users.js";
+import product from "./product.js";
+import productuser from './productuser.js'
+import comment from './comment.js'
+import cart from './cart.js'
+import sequelize from 'sequelize'
 
 
+product.belongsTo(category,{onDelete: "cascade",
+foreignKey: { allowNull: false }})
+category.hasMany(product,{onDelete: "cascade",
+foreignKey: { allowNull: false }})
 
-Product.belongsTo(category)
-category.hasMany(Product)
+product.hasMany(comment)
+comment.belongsTo(product)
 
-Product.hasMany(comment)
-comment.belongsTo(Product)
+productuser.belongsToMany(product, { through: { model: comment, unique: false } });
+product.belongsToMany(productuser, { through: { model: comment, unique: false } });
 
-Product.belongsToMany(Users, { through: { model: userProduct, unique: false } });
-Users.belongsToMany(Product, { through: { model: userProduct, unique: false } });
+productuser.hasMany(comment)
+comment.belongsTo(productuser)
 
-Users.hasMany(comment)
-comment.belongsTo(Users)
+product.belongsToMany(productuser,{through:{model:cart,unique:false}})
+productuser.belongsToMany(product,{through:{model:cart,unique:false}})
 
 
-export default {category,sequelize,Product}
+export default {sequelize,category,product,productuser,comment,cart}

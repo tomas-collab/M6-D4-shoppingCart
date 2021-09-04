@@ -1,8 +1,8 @@
 import express from "express"
 import db from '../../db/models/index.js'
 
-const Product = db.Product
-const category= db.category
+
+const comment= db.comment
 import s from 'sequelize'
 
 const {Op} = s
@@ -24,7 +24,7 @@ router
        }
        :{}
        console.log({name:`%${name}`})
-       const data = await Product.findAll()
+       const data = await comment.findAll({})
        res.send(data);
     } catch (error) {
          console.log(error)
@@ -33,7 +33,7 @@ router
 })
 .post(async(req,res,next)=>{
     try {
-        const data = await Product.create(req.body)
+        const data = await comment.create(req.body)
         res.send(data)
     } catch (error) {
         console.log(error)
@@ -46,7 +46,7 @@ router
 router.route('/:id')
 .get(async(req,res,next)=>{
     try {
-      const data = await Product.findByPk(req.params.id)
+      const data = await comment.findByPk(req.params.id)
       res.send(data)  
     } catch (error) {
         console.log(error)
@@ -55,7 +55,7 @@ router.route('/:id')
 })
 .put(async(req,res,next)=>{
     try {
-        const data = await Product.update(req.body,{
+        const data = await comment.update(req.body,{
         where:{id:req.params.id},
         returning:true,
         })
@@ -67,7 +67,7 @@ router.route('/:id')
 })
 .delete(async(req,res,next)=>{
     try {
-        const rows = await Product.destroy({
+        const rows = await comment.destroy({
             where:{
                 id:req.params.id,
             },

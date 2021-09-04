@@ -1,8 +1,8 @@
-import sequlize from "./index.js";
+import sequelize from "../index.js";
 import s from "sequelize";
-const { DataTypes } = s;
+const {DataTypes} = s;
 
-const User = sequlize.define("user", {
+const Productuser = sequelize.define("productuser", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -25,4 +25,4 @@ const User = sequlize.define("user", {
   },
 });
 
-export default User;
+export default Productuser;

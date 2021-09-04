@@ -1,24 +1,42 @@
 import s from "sequelize";
-const{ Sequelize} = s
+const{ Sequelize,QueryTypes} = s
 
-const { PGDATABASE, PGUSERNAME, PGPASSWORD, PGHOST, PGPORT } = process.env;
+const { PGDATABASE, PGUSER, PGPASSWORD, PGHOST, PGPORT } = process.env;
 
-const sequelize = new Sequelize(PGDATABASE, PGUSERNAME, PGPASSWORD, {
+const sequelize = new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
   host: PGHOST,
   port: PGPORT,
   dialect: "postgres",
+  // dialectOptions: {
+  //   ssl: {
+  //     require: true,
+  //     rejectUnauthorized: false,
+  //   },
+  // },
 });
 
-const testConnection = async () => {
+const schemas = ["development", "production"]
+  .map(
+    (schema) => `CREATE SCHEMA  IF NOT EXISTS ${schema} AUTHORIZATION ${PGUSER}`
+  )
+  .join(";");
+
+
+export const syncSequelize = async () => {
   try {
-    sequelize.authenticate().then(() => {
-      console.log("db is authenticated");
+    await sequelize.authenticate();
+    await sequelize.query(schemas, { type: QueryTypes.SELECT });
+    await sequelize.sync({
+        force: true,
+      logging: false,
+      schema: "development",
     });
+    console.log("DB authenticated");
   } catch (error) {
     console.log(error);
   }
 };
 
-testConnection();
+
 
 export default sequelize;

@@ -1,19 +1,30 @@
 import express from "express"
 import db from '../../db/models/index.js'
-
+import Productuser from "../../db/models/Productuser.js"
 const Product = db.Product
-const category= db.category
+const cart= db.cart
 import s from 'sequelize'
-
 
 const {Op} = s
 
 const router = express.Router()
 
-router.route('/')
+router
+.route('/')
 .get(async(req,res,next)=>{
     try {
-       const data = await category.findAll()
+       const {name} = req.query 
+       const filter = req.query.name
+       ?{
+           where:{
+               name:{
+                   [Op.iLike]:`%${name}$`,
+               },
+           },
+       }
+       :{}
+       console.log({name:`%${name}`})
+       const data = await cart.findAll({include:Product,Productuser})
        res.send(data);
     } catch (error) {
          console.log(error)
@@ -22,7 +33,7 @@ router.route('/')
 })
 .post(async(req,res,next)=>{
     try {
-        const data = await category.create(req.body)
+        const data = await cart.create(req.body)
         res.send(data)
     } catch (error) {
         console.log(error)
@@ -35,7 +46,7 @@ router.route('/')
 router.route('/:id')
 .get(async(req,res,next)=>{
     try {
-      const data = await category.findByPk(req.params.id)
+      const data = await cart.findByPk(req.params.id)
       res.send(data)  
     } catch (error) {
         console.log(error)
@@ -44,7 +55,7 @@ router.route('/:id')
 })
 .put(async(req,res,next)=>{
     try {
-        const data = await category.update(req.body,{
+        const data = await cart.update(req.body,{
         where:{id:req.params.id},
         returning:true,
         })
@@ -56,7 +67,7 @@ router.route('/:id')
 })
 .delete(async(req,res,next)=>{
     try {
-        const rows = await category.destroy({
+        const rows = await cart.destroy({
             where:{
                 id:req.params.id,
             },
