@@ -10,6 +10,8 @@ const Cart = sequelize.define(
             type:DataTypes.INTEGER,
             autoIncrement:true
         }
-    }
+    },{
+        schema: "development",
+      }
 )
 export default Cart

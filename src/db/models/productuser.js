@@ -2,7 +2,7 @@ import sequelize from "../index.js";
 import s from "sequelize";
 const {DataTypes} = s;
 
-const Productuser = sequelize.define("productuser", {
+const productuser = sequelize.define("productuser", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,6 +23,8 @@ const Productuser = sequelize.define("productuser", {
       isEmail: true,
     },
   },
+},{
+  schema: "development",
 });
 
-export default Productuser;
+export default productuser;

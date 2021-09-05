@@ -2,7 +2,7 @@ import sequelize  from "../index.js";
 import s from 'sequelize'
 const {DataTypes} = s
 
-const Comments = sequelize.define("comment",
+const Comment = sequelize.define("comment",
   {
     id: {
       primaryKey: true,
@@ -17,7 +17,9 @@ const Comments = sequelize.define("comment",
       type: DataTypes.INTEGER,
       allowNull: false,
     }
-  },
+  },{
+    schema: "development",
+  }
 )
 
-export default Comments
+export default Comment

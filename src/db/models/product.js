@@ -24,7 +24,9 @@ const Product = sequelize.define(
             type:DataTypes.TEXT,
             allowNull:false
         }
-    }
+    },{
+        schema: "development",
+      }
 )
 
 export default Product

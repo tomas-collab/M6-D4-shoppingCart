@@ -1,9 +1,11 @@
 import express from "express"
 import db from '../../db/models/index.js'
 
-const Product = db.Product
+const Product = db.product
 const category= db.category
+const productuser = db.productuser
 import s from 'sequelize'
+
 
 const {Op} = s
 
@@ -24,7 +26,7 @@ router
     //    }
     //    :{}
     //    console.log({name:`%${name}`})
-       const data = await Product.findAll()
+       const data = await Product.findAll({where:req.query.name?{name:{[op.iLike]:`%${req.query.name}%`}}:{},  include:{model:category,where:req.query.category?{name:req.query.category}:{}}})
        res.send(data);
     } catch (error) {
          console.log(error)

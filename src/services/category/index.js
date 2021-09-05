@@ -13,7 +13,7 @@ const router = express.Router()
 router.route('/')
 .get(async(req,res,next)=>{
     try {
-       const data = await category.findAll()
+       const data = await category.findAll({include:Product})
        res.send(data);
     } catch (error) {
          console.log(error)

@@ -1,8 +1,8 @@
 import express from "express"
 import db from '../../db/models/index.js'
 
-const Product = db.Product
-const user= db.user
+const Product = db.product
+const productuser = db.productuser
 import s from 'sequelize'
 
 const {Op} = s
@@ -24,7 +24,7 @@ router
        }
        :{}
        console.log({name:`%${name}`})
-       const data = await user.findAll({})
+       const data = await productuser.findAll({include:Product})
        res.send(data);
     } catch (error) {
          console.log(error)
@@ -33,7 +33,7 @@ router
 })
 .post(async(req,res,next)=>{
     try {
-        const data = await user.create(req.body)
+        const data = await productuser.create(req.body)
         res.send(data)
     } catch (error) {
         console.log(error)
@@ -46,7 +46,7 @@ router
 router.route('/:id')
 .get(async(req,res,next)=>{
     try {
-      const data = await user.findByPk(req.params.id)
+      const data = await productuser.findByPk(req.params.id)
       res.send(data)  
     } catch (error) {
         console.log(error)
